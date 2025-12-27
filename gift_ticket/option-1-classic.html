@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gift Ticket — Classic</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#f6fbf6,#fffaf8);display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
+    .ticket{width:min(760px,92vw);background:#fff;border-radius:8px;box-shadow:0 8px 30px rgba(21,40,80,.06);overflow:hidden;display:flex;align-items:stretch}
+    .left{background:linear-gradient(135deg,#0b6b35 0%,#b3001b 100%);color:#fff;padding:28px 28px;width:68%;display:flex;flex-direction:column;justify-content:space-between;position:relative}
+    .logo{height:64px;display:flex;align-items:center;justify-content:flex-start;border-radius:6px}
+    .logo img{max-height:56px}
+    .decor{position:absolute;right:18px;top:18px;opacity:.95}
+    .game{margin-top:12px}
+    .game h1{margin:0;font-size:22px;letter-spacing:.2px}
+    .game p{margin:6px 0 0;opacity:.9}
+    .right{padding:18px 20px;width:32%;background:#fffaf6;border-left:2px dashed rgba(0,0,0,.04);display:flex;flex-direction:column;justify-content:space-between}
+    .recipient{font-size:18px;font-weight:700}
+    .meta{margin-top:12px;color:#333}
+    .seat{margin-top:18px;padding:14px;border-radius:8px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.06);font-weight:600}
+    small{color:#666}
+    .ticket-number{font-size:12px;color:#fff;opacity:.9}
+  
+    /* Decorations layer (falls behind the ticket) */
+    .decorations{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+    .ornament{position:absolute;top:-10vh;left:0;font-size:20px;opacity:.95;will-change:transform,opacity}
+    @keyframes fall {
+      to{transform:translateY(120vh) rotate(360deg);opacity:0.92}
+    }
+    @keyframes sway {
+      0%{transform:translateX(0)}
+      50%{transform:translateX(18px)}
+      100%{transform:translateX(0)}
+    }
+    /* hide decorations on small screens to avoid mobile/email issues */
+    @media (max-width:700px){
+      .decorations{display:none}
+      .ticket{width:92vw;border-radius:6px}
+      .left{padding:18px}
+      .right{padding:12px}
+    }
+  </style>
+</head>
+<body>
+  <div class="decorations" id="decorations" aria-hidden="true"></div>
+  <div class="ticket">
+    <div class="left">
+      <div>
+        <div class="logo" style="display:flex;gap:12px;align-items:center">
+          <!-- Team logos from /graphics folder -->
+          <img src="https://upload.wikimedia.org/wikipedia/en/7/77/Buffalo_Bills_logo.svg" alt="Home Team Logo" style="height:56px;object-fit:contain" onerror="this.style.display='none'" />
+          <img src="https://upload.wikimedia.org/wikipedia/en/3/37/Miami_Dolphins_logo.svg" alt="Away Team Logo" style="height:56px;object-fit:contain;background:transparent;padding:4px;border-radius:6px" onerror="this.style.display='none'" />
+        </div>
+        <div class="game">
+          <h1><!-- GAME_TITLE_PLACEHOLDER -->Miami Dolphins @ Buffalo Bills</h1>
+          <p><!-- DATE_PLACEHOLDER -->TBD -  NEW Highmark Stadium</p>
+        </div>
+      </div>
+      <div style="font-size:13px;opacity:.9">
+      </div>
+    </div>
+    <div class="right">
+      <div>
+        <div class="recipient">To: <!-- RECIPIENT_NAME_PLACEHOLDER -->Dad</div>
+        <div class="meta">
+          <div><strong>Tickets:</strong> <!-- TICKETS_PLACEHOLDER -->2 tickets</div>
+        </div>
+        <div class="seat">Good for two tickets (and a dozen wings) for the 2026 NFL Season. <!-- PERSONAL_MESSAGE_PLACEHOLDER -->Merry Christmas!</div>
+      </div>
+      <div style="text-align:right;font-size:12px;color:#fff"><span class="ticket-number">Ticket #<!-- TICKET_NUMBER_PLACEHOLDER -->000123</span><br/>From <!-- GIVER_NAME_PLACEHOLDER -->Giver Name</div>
+    </div>
+  </div>
+  <script>
+    (function(){
+      // decorations run on all screen sizes
+      const container = document.getElementById('decorations');
+      if(!container) return;
+      const emojis = ['❄️','🎄','🎁', '🍗', '🔥', '🐬', '🐃'];
+      const count = 48;
+      for(let i=0;i<count;i++){
+        const el = document.createElement('div');
+        el.className = 'ornament';
+        el.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+        const left = Math.random()*100;
+        el.style.left = left + '%';
+        const size = 16 + Math.random()*28;
+        el.style.fontSize = size + 'px';
+        const dur = 30 + Math.random()*10;
+        el.style.animation = `fall ${dur}s linear ${-Math.random()*dur}s infinite`;
+        el.style.opacity = (0.6 + Math.random()*0.4).toFixed(2);
+        container.appendChild(el);
+      }
+    })();
+  </script>
+</body>
+</html>
